@@ -1,0 +1,38 @@
+class Solution {
+private:
+    void dfs(vector<vector<int>>& heights, vector<vector<bool>>& visited, int r, int c) {
+        int row = heights.size(), col = heights[0].size();
+        visited[r][c] = true;
+        if(r-1 >= 0 && visited[r-1][c] != true && heights[r-1][c] >= heights[r][c])
+            dfs(heights, visited, r-1, c);
+        if(r+1 < row && visited[r+1][c] != true && heights[r+1][c] >= heights[r][c])
+            dfs(heights, visited, r+1, c);
+        if(c-1 >= 0 && visited[r][c-1] != true && heights[r][c-1] >= heights[r][c])
+            dfs(heights, visited, r, c-1);
+        if(c+1 < col && visited[r][c+1] != true && heights[r][c+1] >= heights[r][c])
+            dfs(heights, visited, r, c+1);
+    }
+public:
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        vector<vector<int>> ans;
+        int row = heights.size(), col = heights[0].size();
+        if(row == 0 || col == 0)
+            return ans;
+        vector<vector<bool>> pacific(row, vector<bool>(col));
+        vector<vector<bool>> atlantic(row, vector<bool>(col));
+        for(int r = 0; r < row; r++) {
+            dfs(heights, pacific, r, 0);
+            dfs(heights, atlantic, r, col-1);
+        }
+        for(int c = 0; c < col; c++) {
+            dfs(heights, pacific, 0, c);
+            dfs(heights, atlantic, row-1, c);
+        }
+        for(int r = 0; r < row; r++) {
+            for(int c = 0; c < col; c++)
+                if(pacific[r][c] && atlantic[r][c])
+                    ans.push_back({r, c});
+        }
+        return ans;
+    }
+};
