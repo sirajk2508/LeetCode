@@ -1,0 +1,38 @@
+// Brute Force Approach : TC :- O(n x m)
+
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> ans, res;
+        for(int i = 0; i < nums1.size(); i++) {
+            for(int j = 0; j < nums2.size(); j++)
+                if(nums1[i] == nums2[j])
+                    res.push_back(nums1[i]);
+        }
+        set<int> s;
+        for(int i = 0; i < res.size(); i++)
+            s.insert(res[i]);
+        for(auto i : s)
+            ans.push_back(i);
+        return ans;
+    }
+};
+
+
+
+// Using set : TC :- O(n + m)
+
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> s(nums1.begin(), nums1.end());
+        vector<int> ans;
+        for(auto i : nums2) {
+            if(s.count(i)) {
+                ans.push_back(i);
+                s.erase(i);
+            }
+        }
+        return ans;
+    }
+};
