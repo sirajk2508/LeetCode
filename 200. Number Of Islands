@@ -9,7 +9,6 @@ private:
         mark_island(grid, r+1, c, row, col);
         mark_island(grid, r-1, c, row, col);
     }
-  
 public:
     int numIslands(vector<vector<char>>& grid) {
         int row = grid.size();
