@@ -1,0 +1,32 @@
+// Simplest Solution
+
+class Solution {
+public:
+    bool isStrictlyPalindromic(int n) {
+        return false;
+    }
+};
+
+
+
+// Implementation
+
+class Solution {
+public:
+    bool isStrictlyPalindromic(int n) {
+        string ans = "";
+        for(int i = 2; i < n-1; i++) {
+            int temp = n;
+            while(temp) {
+                ans += to_string(temp % i);
+                temp /= i;
+            }
+            int st = 0, end = ans.size()-1;
+            while(st < end)
+                if(ans[st++] != ans[end--])
+                    return false;
+            ans.clear();
+        }
+        return true;
+    }
+};
