@@ -1,0 +1,62 @@
+// Using DFS
+
+class Solution {
+private:
+    map<int, map<int, multiset<int>>> mpp;
+    
+    void solve(TreeNode* cur, int col, int row) {
+        if(!cur)
+            return;
+        mpp[col][row].insert(cur->val);
+        solve(cur->left, col-1, row+1);
+        solve(cur->right, col+1, row+1);
+    }
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> ans;
+        solve(root, 0, 0);
+        for(auto a : mpp) {
+            ans.push_back(vector<int>());
+            for(auto b : a.second)
+                for(auto c : b.second)
+                    ans.back().push_back(c);
+        }
+        return ans;
+    }
+};
+
+
+
+// Using BFS
+
+
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        TreeNode* cur;
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, 0});
+        vector<vector<int>> ans;
+        map<int, vector<int>> mpp;
+        while(!q.empty()) {
+            int sz = q.size();
+            map<int, multiset<int>> mpset;
+            while(sz--) {
+                cur = q.front().first;
+                int col = q.front().second;
+                q.pop();
+                mpset[col].insert(cur->val);
+                if(cur->left)
+                    q.push({cur->left, col-1});
+                if(cur->right)
+                    q.push({cur->right, col+1});
+            }
+            for(auto it : mpset)
+                for(auto it2 : it.second)
+                    mpp[it.first].push_back(it2);
+        }
+        for(auto it : mpp)
+            ans.push_back(it.second);
+        return ans;
+    }
+};
