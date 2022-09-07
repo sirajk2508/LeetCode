@@ -1,0 +1,50 @@
+// Recursive Solution
+
+class Solution {
+public:
+    string tree2str(TreeNode* root) {
+        if(!root)
+            return "";
+        string ans = to_string(root->val);
+        if(root->left)
+            ans += "(" + tree2str(root->left) + ")";
+        else if(root->right)
+            ans += "()";
+        if(root->right)
+            ans += "(" + tree2str(root->right) + ")";
+        return ans;
+    }
+};
+
+
+// Iterative Solution
+
+class Solution {
+public:
+    string tree2str(TreeNode* root) {
+        if(!root)
+            return "";
+        stack<TreeNode*> st;
+        st.push(root);
+        string ans;
+        set<TreeNode*> visited;
+        while(!st.empty()) {
+            TreeNode* node = st.top();
+            if(visited.find(node) != visited.end()) {
+                st.pop();
+                ans += ")";
+            }
+            else {
+                visited.insert(node);
+                ans += "(" + to_string(node->val);
+                if(!node->left && node->right)
+                    ans += "()";
+                if(node->right)
+                    st.push(node->right);
+                if(node->left)
+                    st.push(node->left);
+            }
+        }
+        return ans.substr(1, ans.length()-2);
+    }
+};
