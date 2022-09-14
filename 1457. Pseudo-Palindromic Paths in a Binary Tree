@@ -1,0 +1,89 @@
+// Solution 1 : Using Hashmap
+
+class Solution {
+private:
+    int ans = 0;
+    unordered_map<int, int> mpp;
+    
+    void solve(TreeNode* root) {
+        if(!root)
+            return;
+        mpp[root->val]++;
+        if(!root->left && !root->right) {
+            int odd = 0;
+            for(auto& [one, two] : mpp)
+                if(two % 2 == 1)
+                    odd++;
+            if(odd <= 1)
+                ans++;
+        }
+        solve(root->left);
+        solve(root->right);
+        mpp[root->val]--;
+    }
+public:
+    int pseudoPalindromicPaths (TreeNode* root) {
+        solve(root);
+        return ans;
+    }
+};
+
+
+
+
+// Solution 2 : Using Set
+
+class Solution {
+private:
+    int ans = 0;
+    void dfs(TreeNode* root, set<int> s) {
+        if(!root)
+            return;
+        if(s.find(root->val) != s.end())
+            s.erase(root->val);
+        else s.insert(root->val);
+        if(!root->left and !root->right) {
+            if(s.size() <= 1)
+                ans++;
+            return;
+        }
+        if(root->left)
+            dfs(root->left, s);
+        if(root->right)
+            dfs(root->right, s);
+    }
+public:
+    int pseudoPalindromicPaths (TreeNode* root) {
+        set<int> s;
+        dfs(root, s);
+        return ans;
+    }
+};
+
+
+
+// Solution 3 : Bitmask
+
+class Solution {
+private:
+    int ans = 0;
+    void countPath(TreeNode* root, int path) {
+        path ^= (1 << root->val);
+        if(!root->left && !root->right) {
+            if((path & (path-1)) == 0)
+                ans++;
+            return;
+        }
+        if(root->left)
+            countPath(root->left, path);
+        if(root->right)
+            countPath(root->right, path);
+    }
+public:
+    int pseudoPalindromicPaths (TreeNode* root) {
+        if(!root)
+            return 0;
+        countPath(root, 0);
+        return ans;
+    }
+};
