@@ -1,0 +1,25 @@
+class Solution {
+private:
+    static bool comp(int i, int j) {
+        return abs(i) < abs(j);
+    }
+public:
+    vector<int> findOriginalArray(vector<int>& changed) {
+        int n = changed.size();
+        if(n % 2) return {};
+        unordered_map<int, int> mpp;
+        for(int i : changed)
+            mpp[i]++;
+        vector<int> keys, ans;
+        for(auto& [i, j] : mpp)
+            keys.push_back(i);
+        sort(keys.begin(), keys.end(), comp);
+        for(int i : keys) {
+            if(mpp[i] > mpp[2*i])
+                return {};
+            for(int x = 0; x < mpp[i]; x++, mpp[2*i]--)
+                ans.push_back(i);
+        }
+        return ans;
+    }
+};
