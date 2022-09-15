@@ -1,0 +1,28 @@
+// Solution 1
+
+class Solution {
+public:
+    string largestOddNumber(string nums) {
+        for(int i = nums.size()-1; i >= 0; i--)
+            if(int(nums[i]) % 2)
+                return nums.substr(0, i+1);
+        return "";
+    }
+};
+
+
+
+
+// Solution 2
+
+class Solution {
+public:
+    string largestOddNumber(string nums) {
+        int n = nums.size();
+        if(int(nums[n-1]) % 2)
+            return nums;
+        while(nums.size() != 0 && (int(nums.back()) % 2 == 0))
+            nums.pop_back();
+        return nums;
+    }
+};
