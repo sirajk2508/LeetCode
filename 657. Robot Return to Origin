@@ -1,0 +1,34 @@
+// Counting
+
+class Solution {
+public:
+    bool judgeCircle(string moves) {
+        unordered_map<char, int> mpp;
+        for(auto c : moves)
+            mpp[c]++;
+        return mpp['U'] == mpp['D'] && mpp['R'] == mpp['L'];
+    }
+};
+
+
+// Space Optimized
+
+class Solution {
+public:
+    bool judgeCircle(string moves) {
+        int a = 0, b = 0;
+        for(char ch : moves) {
+            switch(ch) {
+                case 'U':
+                    a++; break;
+                case 'D':
+                    a--; break;
+                case 'L':
+                    b++; break;
+                case 'R':
+                    b--; break;
+            }
+        }
+        return a == 0 && b == 0;
+    }
+};
