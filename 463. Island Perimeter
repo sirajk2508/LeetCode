@@ -1,0 +1,47 @@
+// Solution 1
+
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int ans = 0, repeat = 0;
+        for(int i = 0; i < grid.size(); i++) {
+            for(int j = 0; j < grid[i].size(); j++) {
+                if(grid[i][j] == 1) {
+                    ans++;
+                    if(i != 0 && grid[i-1][j] == 1)
+                        repeat++;
+                    if(j != 0 && grid[i][j-1] == 1)
+                        repeat++;
+                }
+            }
+        }
+        return 4*ans - 2* repeat;
+    }
+};
+
+
+
+// DFS Solution
+
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int delrow[5] = {0, 1, 0, -1, 0};
+        int perimeter = 0, n = grid.size(), m = grid[0].size();
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 0)
+                    continue;
+                perimeter += 4;
+                for(int k = 0; k < 4; k++) {
+                    int nrow = i + delrow[k];
+                    int ncol = j + delrow[k+1];
+                    if(nrow < 0 || ncol < 0 || nrow == n || ncol == m || grid[nrow][ncol] == 0)
+                        continue;
+                    perimeter -= 1;
+                }
+            }
+        }
+        return perimeter;
+    }
+};
