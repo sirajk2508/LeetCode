@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        priority_queue<pair<int, int>> pq;
+        vector<int> res;
+        for(auto b : buildings) {
+            res.push_back(b[0]);
+            res.push_back(b[1]);
+        }
+        sort(res.begin(), res.end());
+        int m = unique(res.begin(), res.end()) - res.begin();
+        int j = 0;
+        int prev = 0;
+        vector<vector<int>> ans;
+        for(int i = 0; i < m; i++) {
+            while(j < buildings.size() && buildings[j][0] <= res[i])
+            pq.push(make_pair(buildings[j][2], buildings[j][1])), j++;
+            while(!pq.empty() && pq.top().second <= res[i])
+                pq.pop();
+            int newH = pq.empty() ? 0 : pq.top().first;
+            if(newH != prev) {
+                ans.push_back({res[i], newH});
+                prev = newH;
+            }
+        }
+        return ans;
+    }
+};
