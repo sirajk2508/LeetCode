@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> fairCandySwap(vector<int>& A, vector<int>& B) {
+        int asum = 0, bsum = 0;
+        for(int i : A)
+            asum += i;
+        for(int i : B)
+            bsum += i;
+        int diff = (bsum - asum) / 2;
+        unordered_set<int> s(B.begin(), B.end());
+        for(int x : A)
+            if(s.count(x+diff))
+                return {x, x+diff};
+        return {};
+    }
+};
