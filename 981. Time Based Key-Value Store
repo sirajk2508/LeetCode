@@ -1,0 +1,19 @@
+class TimeMap {
+public:
+    TimeMap() {}
+    
+    unordered_map<string, map<int, string>> mpp;
+    
+    void set(string key, string value, int timestamp) {
+        auto& inner = mpp[key];
+        inner[-timestamp] = value;
+    }
+    
+    string get(string key, int timestamp) {
+        auto i = mpp.find(key);
+        if(i == mpp.end())
+            return "";
+        auto j = i->second.lower_bound(-timestamp);
+        return j != i->second.end() ? j->second : "";
+    }
+};
