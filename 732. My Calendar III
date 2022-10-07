@@ -1,0 +1,17 @@
+class MyCalendarThree {
+public:
+    map<int, int> mpp;
+    int maxi = 0;
+    MyCalendarThree() {}
+    
+    int book(int start, int end) {
+        int count = 0;
+        mpp[start]++;
+        mpp[end]--;
+        for(auto it = mpp.begin(); it != mpp.end(); it++) {
+            count += it->second;
+            maxi = max(maxi, count);
+        }
+        return maxi;
+    }
+};
