@@ -1,0 +1,34 @@
+// Hashmap Solution
+
+class Solution {
+public:
+    int sumOfUnique(vector<int>& nums) {
+        unordered_map<int, int> mpp;
+        for(int n : nums)
+            mpp[n]++;
+        int ans = 0;
+        for(auto& [a, b] : mpp) {
+            if(b == 1)
+                ans += a;
+        }
+        return ans;
+    }
+};
+
+
+
+// Using array
+
+class Solution {
+public:
+    int sumOfUnique(vector<int>& nums) {
+        int ans = 0, n = nums.size();
+        int freq[101] = {};
+        for(int i : nums)
+            freq[i]++;
+        for(int i = 0; i < 101; i++)
+            if(freq[i] == 1)
+                ans += i;
+        return ans;
+    }
+};
