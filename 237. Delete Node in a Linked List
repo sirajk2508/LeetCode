@@ -1,0 +1,22 @@
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        ListNode* Nnode = node->next;
+        node->val = Nnode->val;
+        node->next = Nnode->next;
+        Nnode->next = nullptr;
+        delete(Nnode);
+    }
+};
+
+
+
+// Same approach but with fewer lines
+
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node->val = node->next->val;
+        node->next = node->next->next;
+    }
+};
