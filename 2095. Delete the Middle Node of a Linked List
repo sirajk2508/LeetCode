@@ -1,0 +1,53 @@
+// Intutive Approach
+
+class Solution {
+private:
+    int countNodes(ListNode* head) {
+        int count = 0;
+        while(head != nullptr) {
+            count++;
+            head = head->next;
+        }
+        return count;
+    }
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        if(head == nullptr)
+            return nullptr;
+        if(head->next == nullptr) {
+            delete head;
+            return nullptr;
+        }
+        ListNode* copyHead = head;
+        int count = countNodes(head);
+        int mid = count/2;
+        while(mid-- > 1)
+            head = head->next;
+        head->next = head->next->next;
+        return copyHead;
+    }
+};
+
+
+
+// Using slow and fast pointer
+
+class Solution {
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        if(head == nullptr)
+            return nullptr;
+        if(head->next == nullptr) {
+            delete head;
+            return nullptr;
+        }
+        ListNode* slow = head;
+        ListNode* fast = head->next->next;
+        while(fast && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        slow->next = slow->next->next;
+        return head;
+    }
+};
