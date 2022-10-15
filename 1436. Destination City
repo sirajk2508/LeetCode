@@ -1,0 +1,32 @@
+// Using Hashmap
+
+class Solution {
+public:
+    string destCity(vector<vector<string>>& paths) {
+        unordered_map<string, int> mpp;
+        for(auto it : paths) {
+            mpp[it[0]] += 1;
+            mpp[it[1]] += 0;
+        }
+        for(auto& [e, s] : mpp)
+            if(s == 0)
+                return e;
+        return "";
+    }
+};
+
+
+// Using Set
+
+class Solution {
+public:
+    string destCity(vector<vector<string>>& paths) {
+        unordered_set<string> s;
+        for(auto e : paths)
+            s.insert(e[0]);
+        for(auto e : paths)
+            if(!s.count(e[1]))
+                return e[1];
+        return "";
+    }
+};
