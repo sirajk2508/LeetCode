@@ -1,0 +1,54 @@
+// RECURSIVE SOLUTION
+
+class Solution {
+private:
+    int solve(vector<int>& job, int n, int i, int d) {
+        if(d == 1)
+            return *max_element(begin(job)+i, end(job));
+        int cur = INT_MIN;
+        int ans = INT_MAX;
+        for(int j = i; j <= n-d; j++) {
+            cur = max(cur, job[j]);
+            ans = min(ans, cur + solve(job, n, j+1, d-1));
+        }
+        return ans;
+    }
+public:
+    int minDifficulty(vector<int>& jobDifficulty, int d) {
+        int n = jobDifficulty.size();
+        if(n < d)
+            return -1;
+        return solve(jobDifficulty, n, 0, d);
+    }
+};
+
+
+
+// MEMOIZATION CODE
+
+class Solution {
+private:
+    int dp[301][11];
+    int solve(vector<int>& job, int n, int i, int d) {
+        if(d == 1)
+            return *max_element(begin(job)+i, end(job));
+        int cur = INT_MIN;
+        int ans = INT_MAX;
+        if(dp[i][d] != -1)
+            return dp[i][d];
+        for(int j = i; j <= n-d; j++) {
+            cur = max(cur, job[j]);
+            ans = min(ans, cur + solve(job, n, j+1, d-1));
+        }
+        dp[i][d] = ans;
+        return dp[i][d];
+    }
+public:
+    int minDifficulty(vector<int>& jobDifficulty, int d) {
+        int n = jobDifficulty.size();
+        memset(dp, -1, sizeof(dp));
+        if(n < d)
+            return -1;
+        return solve(jobDifficulty, n, 0, d);
+    }
+};
