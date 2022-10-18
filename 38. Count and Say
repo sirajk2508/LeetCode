@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string countAndSay(int n) {
+        string ans = "1";
+        for(int i = 2; i <= n; i++) {
+            string last = ans;
+            int len = ans.size();
+            int j = 0;
+            ans = "";
+            while(j < len) {
+                int count = j;
+                while(j < len && last[j] == last[count])
+                    count++;
+                ans += to_string(count-j) + last[j];
+                j = count;
+            }
+        }
+        return ans;
+    }
+};
