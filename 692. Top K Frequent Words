@@ -1,0 +1,62 @@
+// Using Struct, Hashmap and Priority Queue
+
+class Solution {
+private:
+    struct comp{
+        bool operator() (pair<int, string>& a, pair<int, string>& b) {
+            if(a.first == b.first)
+                return a.second < b.second;
+            return a.first > b.first;
+        }
+    };
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string, int> mpp;
+        for(auto word : words)
+            mpp[word]++;
+        priority_queue<pair<int, string>, vector<pair<int, string>>, comp> pq;
+        for(auto& [a, b] : mpp) {
+            pq.push({b, a});
+            if(pq.size() > k)
+                pq.pop();
+        }
+        vector<string> ans(k);
+        int m = k-1;
+        while(!pq.empty()) {
+            ans[m--] = pq.top().second;
+            pq.pop();
+        }
+        return ans;
+    }
+};
+
+
+
+
+// Same solution with fewer lines with a bit of modification
+
+class Solution {
+private:
+    struct comp{
+        bool operator() (pair<int, string>& a, pair<int, string>& b) {
+            if(a.first == b.first)
+                return a.second > b.second;
+            return a.first < b.first;
+        }
+    };
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string, int> mpp;
+        for(auto word : words)
+            mpp[word]++;
+        priority_queue<pair<int, string>, vector<pair<int, string>>, comp> pq;
+        for(auto& [a, b] : mpp) 
+            pq.push({b, a});
+        vector<string> ans;
+        while(k--) {
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        return ans;
+    }
+};
