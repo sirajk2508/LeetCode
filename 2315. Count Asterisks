@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int countAsterisks(string s) {
+        int count = 0, bars = 0;
+        for(int i = 0; i < s.size(); i++) {
+            if(s[i] == '*' && bars % 2 == 0)
+                count++;
+            if(s[i] == '|')
+                bars++;
+        }
+        return count;
+    }
+};
+
+
+
+class Solution {
+public:
+    int countAsterisks(string s) {
+        bool green = true;
+        int count = 0;
+        for(int i = 0; i < s.size(); i++) {
+            if(green and s[i] == '*')
+                count++;
+            if(s[i] == '|')
+                green = !green;
+        }
+        return count;
+    }
+};
+
+
+
+// JAVASCRIPT CODE
+
+var countAsterisks = function(s) {
+    let green = true;
+    let count = 0;
+    for(let i = 0; i < s.length; i++) {
+        if(green && s[i] == '*')
+            count++;
+        if(s[i] == '|')
+            green = !green;
+    }
+    return count;
+};
