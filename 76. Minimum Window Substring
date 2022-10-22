@@ -1,0 +1,75 @@
+// Using HashMap
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int lens = s.size();
+        int lent = t.size();
+        if(lens < lent)
+            return "";
+        unordered_map<char, int> mpps;
+        unordered_map<char, int> mppt;
+        for(auto ch : t)
+            mppt[ch]++;
+        int start = 0, count = 0, startIndex = -1, minlen = INT_MAX;
+        for(int i = 0; i < lens; i++) {
+            mpps[s[i]]++;
+            if(mpps[s[i]] <= mppt[s[i]])
+                count++;
+            if(count == lent) {
+                while(mpps[s[start]] > mppt[s[start]] || mppt[s[start]] == 0) {
+                    if(mpps[s[start]] > mppt[s[start]])
+                        mpps[s[start]]--;
+                    start++;
+                }
+                int window = i - start + 1;
+                if(minlen > window) {
+                    minlen = window;
+                    startIndex = start;
+                }
+            }
+        }
+        if(startIndex == -1)
+            return "";
+        return s.substr(startIndex, minlen);
+    }
+};
+
+
+
+// Using Array
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int lens = s.size();
+        int lent = t.size();
+        if(lens < lent)
+            return "";
+        int hashs[256] = {0};
+        int hasht[256] = {0};
+        for(int i : t)
+            hasht[i]++;
+        int start = 0, count = 0, minlen = INT_MAX, startIndex = -1;
+        for(int i = 0; i < lens; i++) {
+            hashs[s[i]]++;
+            if(hashs[s[i]] <= hasht[s[i]])
+                count++;
+            if(count == lent) {
+                while(hashs[s[start]] > hasht[s[start]] || hasht[s[start]] == 0) {
+                    if(hashs[s[start]] > hasht[s[start]])
+                        hashs[s[start]]--;
+                    start++;
+                }
+                int window = i - start + 1;
+                if(minlen > window) {
+                    minlen = window;
+                    startIndex = start;
+                }
+            }
+        }
+        if(startIndex == -1)
+            return "";
+        return s.substr(startIndex, minlen);
+    }
+};
