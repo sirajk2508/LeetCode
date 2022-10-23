@@ -1,0 +1,61 @@
+// Brute Force Approach
+
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        int n = nums.size();
+        int dup = -1, missing = -1;
+        for(int i = 1; i <= n; i++) {
+            int count = 0;
+            for(int j = 0; j < n; j++)
+                if(nums[j] == i)
+                    count++;
+            if(count == 2)
+                dup = i;
+            else if(count == 0)
+                missing = i;
+            if(dup > 0 && missing > 0)
+                break;
+        }
+        return {dup, missing};
+    }
+};
+
+
+// Using Sorting
+
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int dup = -1, missing = 1;
+        int n = nums.size();
+        for(int i = 1; i < n; i++) {
+            if(nums[i] == nums[i-1])
+                dup = nums[i];
+            else if(nums[i] > nums[i-1]+1)
+                missing = nums[i-1]+1;
+        }
+        return {dup, nums[n-1] != n ? n : missing};
+    }
+};
+
+
+// Using Hashmap
+
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        map<int, int> mpp;
+        for(auto i : nums)
+            mpp[i]++;
+        int dup = -1, missing = 1;
+        for(int i = 1; i <= nums.size(); i++) {
+            if(mpp[i] == 2)
+                dup = i;
+            else if(mpp[i] == 0)
+                missing = i;
+        }
+        return {dup, missing};
+    }
+};
