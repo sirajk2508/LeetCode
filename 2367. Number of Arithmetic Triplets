@@ -1,0 +1,38 @@
+// BRUTE FORCE APPROACH : TC = O(N^3)
+
+class Solution {
+public:
+    int arithmeticTriplets(vector<int>& nums, int diff) {
+        int count = 0;
+        int n = nums.size();
+        for(int i = 0; i < n-2; i++) {
+            for(int j = i+1; j < n-1; j++) {
+                for(int k = j+1; k < n; k++) {
+                    int a = nums[j] - nums[i];
+                    int b = nums[k] - nums[j];
+                    if(a == diff and b == diff)
+                        count++;
+                }
+            }
+        }
+        return count;
+    }
+};
+
+
+
+// USING HASHMAP : TC = O(2N)
+
+class Solution {
+public:
+    int arithmeticTriplets(vector<int>& nums, int diff) {
+        int count = 0;
+        unordered_map<int, bool> mpp;
+        for(auto i : nums)
+            mpp[i] = true;
+        for(auto i : nums)
+            if(mpp[i-diff] && mpp[i+diff])
+                count++;
+        return count;
+    }
+};
