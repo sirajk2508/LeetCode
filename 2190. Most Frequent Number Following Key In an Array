@@ -1,0 +1,33 @@
+// Using HASHMAP
+
+class Solution {
+public:
+    int mostFrequent(vector<int>& nums, int key) {
+        int n = nums.size();
+        map<int, int> mpp;
+        int element = 0;
+        for(int i = 1; i < n; i++) {
+            if(nums[i-1] == key)
+                mpp[nums[i]]++;
+            if(mpp[element] < mpp[nums[i]])
+                element = nums[i];
+        }
+        return element;
+    }
+};
+
+
+// Using ARRAY
+
+class Solution {
+public:
+    int mostFrequent(vector<int>& nums, int key) {
+        int freq[1001] = {0};
+        int ans = 0;
+        int n = nums.size();
+        for(int i = 1; i < n; i++)
+            if(nums[i-1] == key && ++freq[nums[i]] > freq[ans])
+                ans = nums[i];
+        return ans;
+    }
+};
