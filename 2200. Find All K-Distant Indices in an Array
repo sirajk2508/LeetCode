@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<int> findKDistantIndices(vector<int>& nums, int key, int k) {
+        vector<int> ans, res;
+        set<int> s;
+        int n = nums.size();
+        for(int j = 0; j < n; j++) {
+            for(int i = 0; i < n; i++) {
+                int diff = abs(i - j);
+                if(nums[j] == key and diff <= k)
+                    ans.push_back(i);
+            }
+        }
+        for(auto i : ans)
+            s.insert(i);
+        for(auto i : s)
+            res.push_back(i);
+        return res;
+    }
+};
+// Two pointers
+
+class Solution {
+public:
+    vector<int> findKDistantIndices(vector<int>& nums, int key, int k) {
+        int n = nums.size();
+        vector<int> ans;
+        int j = 0, i = 0;
+        while(i < n) {
+            j = 0;
+            while(j < n and (nums[j] != key || j < i-k))
+                j++;
+            cout << j << " ";
+            if(j == n)
+                break;
+            if(i <= j+k && i >= j-k)
+                ans.push_back(i);
+            i++;
+        }
+        return ans;
+    }
+};
