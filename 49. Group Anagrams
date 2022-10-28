@@ -1,0 +1,46 @@
+// Uding HASHMAP
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> mpp;
+        for(const auto& s : strs) {
+            string t = s;
+            sort(t.begin(), t.end());
+            mpp[t].push_back(s);
+        }
+        vector<vector<string>> ans;
+        for(auto& [a, b] : mpp) {
+            ans.push_back(b);
+        }
+        return ans;
+    }
+};
+
+
+
+// Using Count sort
+
+class Solution {
+private:
+    string strSort(string s) {
+        string t;
+        int count[26] = {0};
+        for(auto c : s)
+            count[c-'a']++;
+        for(int i = 0; i < 26; i++)
+            t += string(count[i], i+'a');
+        return t;
+    }
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> mpp;
+        for(const auto& s : strs)
+            mpp[strSort(s)].push_back(s);
+        vector<vector<string>> ans;
+        ans.reserve(mpp.size());
+        for(auto& [a, b] : mpp)
+            ans.push_back(b);
+        return ans;
+    }
+};
