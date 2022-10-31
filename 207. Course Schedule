@@ -1,0 +1,68 @@
+// Using Array
+
+class Solution {
+public:
+    bool canFinish(int n, vector<vector<int>>& nums) {
+        vector<int> adj[n];
+        for(auto it : nums)
+            adj[it[0]].push_back(it[1]);
+        vector<int> ans;
+        queue<int> q;
+        vector<int> indeg(n, 0);
+        for(int i = 0; i < n; i++)
+            for(auto it : adj[i])
+                indeg[it]++;
+        for(int i = 0; i < n; i++)
+            if(indeg[i] == 0)
+                q.push(i);
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+            for(auto it : adj[node]) {
+                indeg[it]--;
+                if(indeg[it] == 0)
+                    q.push(it);
+            }
+        }
+        if(ans.size() == n)
+            return true;
+        return false;
+    }
+};
+
+
+
+
+// Using Count
+
+class Solution {
+public:
+    bool canFinish(int n, vector<vector<int>>& nums) {
+        vector<int> adj[n];
+        for(auto it : nums)
+            adj[it[0]].push_back(it[1]);
+        int count = 0;
+        queue<int> q;
+        vector<int> indeg(n, 0);
+        for(int i = 0; i < n; i++)
+            for(auto it : adj[i])
+                indeg[it]++;
+        for(int i = 0; i < n; i++)
+            if(indeg[i] == 0)
+                q.push(i);
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+            count++;
+            for(auto it : adj[node]) {
+                indeg[it]--;
+                if(indeg[it] == 0)
+                    q.push(it);
+            }
+        }
+        if(count == n)
+            return true;
+        return false;
+    }
+};
