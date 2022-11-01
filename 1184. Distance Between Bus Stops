@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int distanceBetweenBusStops(vector<int>& distance, int start, int destination) {
+        int ans1, ans2, sum = 0;
+        int sz = distance.size();
+        int j = start;
+        while(sz) {
+            sum += distance[j];
+            j++;
+            if(j == distance.size())
+                j = 0;
+            if(j == destination) {
+                ans1 = sum;
+                sum = 0;
+            }
+            sz--;
+        }
+        ans2 = sum;
+        return min(ans1, ans2);
+    }
+};
