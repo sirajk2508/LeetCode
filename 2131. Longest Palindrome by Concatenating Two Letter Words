@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int longestPalindrome(vector<string>& words) {
+        map<string, int> mpp;
+        int len = 0;
+        int ans = 0;
+        bool flag = false;
+        for(auto word : words)
+            mpp[word]++;
+        for(auto x : mpp) {
+            if(x.first[0] == x.first[1]) {
+                if(x.second%2) {
+                    flag = true;
+                    len += (x.second - 1);
+                }
+                else len += mpp[x.first];
+                mpp.erase(x.first);
+            }
+            else {
+                string temp = x.first;
+                reverse(temp.begin(), temp.end());
+                if(mpp.find(temp) != mpp.end())
+                    ans += min(mpp[temp], x.second) * 4;
+                mpp.erase(temp);
+                mpp.erase(x.first);
+            }
+        }
+        if(flag)
+            return ans + (len * 2) + 2;
+        return ans + len * 2;
+    }
+};
