@@ -1,0 +1,32 @@
+// Brute Force Approach
+
+class Solution {
+public:
+    bool checkIfExist(vector<int>& arr) {
+        int n = arr.size();
+        for(int i = 0; i < n-1; i++) {
+            for(int j = 0; j < n; j++) {
+                if(arr[i] == 2*arr[j] and i != j)
+                    return true;
+            }
+        }
+        return false;
+    }
+};
+
+
+// Optimized Approach
+
+class Solution {
+public:
+    bool checkIfExist(vector<int>& arr) {
+        int n = arr.size();
+        unordered_set<int> s;
+        for(int i = 0; i < n; i++) {
+            if(s.count(arr[i]*2) > 0 ||((arr[i]%2 == 0) && s.count(arr[i]/2) > 0))
+                return true;
+            s.insert(arr[i]);
+        }
+        return false;
+    }
+};
