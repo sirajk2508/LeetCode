@@ -1,0 +1,16 @@
+class Solution {
+public:
+    double average(vector<int>& salary) {
+        int n = salary.size(), maxi = INT_MIN, mini = INT_MAX;
+        double sum = 0;
+        for(int i = 0; i < salary.size(); i++) {
+            sum += salary[i];
+            maxi = max(maxi, salary[i]);
+            mini = min(mini, salary[i]);
+        }
+        cout << maxi << " " << mini << " " << sum;
+        sum = sum - mini - maxi;
+        sum /= (n-2);
+        return sum;
+    }
+};
