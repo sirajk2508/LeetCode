@@ -1,0 +1,58 @@
+// Brute Force Approach
+
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int n = s.size();
+        if(n == 1)
+            return 1;
+        unordered_map<char, int> mpp;
+        for(auto i : s)
+            mpp[i]++;
+        int odd = 0;
+        for(auto& [a, b] : mpp) {
+            if(b%2)
+                odd++;
+        }
+        int ans = n-odd;
+        if(odd > 0)
+            ans += 1;
+        return ans;
+    }
+};
+
+
+// Better Code quality
+
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int ans = s.size();
+        unordered_map<char, int> mpp;
+        for(auto x : s)
+            mpp[x]++;
+        int odd = 0;
+        for(auto& [a, b] : mpp)
+            if(b % 2)
+                odd++;
+        return ans - odd + (odd > 0);
+    }
+};
+
+
+
+// Space Optimized
+
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int freq[128] = {};
+        int odd = 0;
+        int ans = s.size();
+        for(auto i : s)
+            freq[i]++;
+        for(auto i : freq)
+            odd += i & 1;
+        return ans - odd + (odd > 0);
+    }
+};
