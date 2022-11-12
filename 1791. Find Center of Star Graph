@@ -6,3 +6,23 @@ public:
         return e[0][0] == e[1][1] || e[0][0] == e[1][0] ? e[0][0] : e[0][1]; 
     }
 };
+
+
+class Solution {
+public:
+    int findCenter(vector<vector<int>>& edges) {
+        unordered_map<int, int> mpp;
+        int n = edges.size(), center = 0;
+        for(auto edge : edges) {
+            mpp[edge[0]]++;
+            mpp[edge[1]]++;
+        }
+        for(auto& x : mpp) {
+            if(x.second == n) {
+                center = x.first;
+                break;
+            }
+        }
+        return center;
+    }
+};
