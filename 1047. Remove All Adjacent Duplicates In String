@@ -1,7 +1,7 @@
 class Solution {
 public:
     string removeDuplicates(string s) {
-        string a;
+        string a = ";
         for(auto& c : s) {
             if(a.size() and a.back() == c)
                 a.pop_back();
