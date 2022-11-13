@@ -1,0 +1,47 @@
+// Using Stringstream
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        vector<string> words;
+        string temp;
+        stringstream ss(s);
+        while(ss >> temp)
+            words.push_back(temp);
+        string ans;
+        for(int i = words.size()-1; i >= 0; i--) {
+            if(i != words.size()-1)
+                ans += ' ';
+            ans += words[i];
+        }
+        return ans;
+    }
+};
+
+
+
+// Using Two pointers
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        reverse(s.begin(), s.end());
+        int left = 0, right = 0, i = 0, n = s.size();
+        while(i < n) {
+            while(i < n && s[i] != ' ')
+                s[right++] = s[i++];
+            if(left < right) {
+                reverse(s.begin() + left, s.begin() + right);
+                if(right == n)
+                    break;
+                s[right++] = ' ';
+                left = right;
+            }
+            i++;
+        }
+        if(right > 0 && s[right - 1] == ' ')
+            right--;
+        s.resize(right);
+        return s;
+    }
+};
