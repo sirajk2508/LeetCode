@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int numJewelsInStones(string jewels, string stones) {
+        int jwl = jewels.size(), stn = stones.size();
+        int count = 0;
+        for(int i = 0; i < jwl; i++) {
+            for(int j = 0; j < stn; j++)
+                if(jewels[i] == stones[j])
+                    count++;
+        }
+        return count;
+    }
+};
+
+
+
+// Using Hashset
+
+class Solution {
+public:
+    int numJewelsInStones(string jewels, string stones) {
+        int count = 0;
+        unordered_set<char> s(jewels.begin(), jewels.end());
+        for(auto c : stones)
+            if(s.count(c))
+                count++;
+        return count;
+    }
+};
+
+
+
+// Using Hashmap
+
+class Solution {
+public:
+    int numJewelsInStones(string jewels, string stones) {
+        int count = 0;
+        unordered_map<char, int> mpp;
+        for(auto i : jewels)
+            mpp[i]++;
+        for(auto i : stones)
+            if(mpp.find(i) != mpp.end())
+                count++;
+        return count;
+    }
+};
