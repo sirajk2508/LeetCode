@@ -1,0 +1,32 @@
+// BINARY SEARCH
+
+class Solution {
+public:
+    int guessNumber(int n) {
+        int maxi = n, mini = 1;
+        while(true) {
+            int mid = (maxi - mini) / 2 + mini;
+            int ans = guess(mid);
+            if(ans == 0)
+                return mid;
+            else if(ans == 1)
+                mini = mid + 1;
+            else maxi = mid - 1;
+        }
+    }
+};
+
+
+// Iterative Solution gives TLE
+
+class Solution {
+public:
+    int guessNumber(int n) {
+        for(int i = 1; i <= n; i++) {
+            int ans = guess(i);
+            if(ans == 0)
+                return i;
+        }
+        return 0;
+    }
+};
