@@ -1,0 +1,9 @@
+class Solution {
+public:
+    bool isRectangleOverlap(vector<int>& a, vector<int>& b) {
+        int A = a[0], B = a[1], C = a[2], D = a[3], E = b[0], F = b[1], G = b[2], H = b[3];
+        if(A >= G || C <= E || D <= F || B >= H)
+            return false;
+        return true;
+    }
+};
