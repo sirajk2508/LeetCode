@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int nearestExit(vector<vector<char>>& matrix, vector<int>& e) {
+        queue<pair<int, int>> q;
+        q.push({e[0], e[1]});
+        int moves = 1;
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int dx[] = {-1, 0, +1, 0};
+        int dy[] = {0, +1, 0, -1};
+        matrix[e[0]][e[1]] = '+';
+        while(!q.empty()) {
+            int lvl = q.size();
+            for(int k = 0; k < lvl; k++) {
+                int row = q.front().first;
+                int col = q.front().second;
+                q.pop();
+                for(int i = 0; i < 4; i++) {
+                    int nrow = row + dx[i];
+                    int ncol = col + dy[i];
+                    if(nrow < 0 ||ncol < 0 ||nrow>=n ||ncol>=m ||matrix[nrow][ncol] == '+')
+                        continue;
+                    if(nrow == 0 || ncol == 0 || nrow == n-1 || ncol == m-1)
+                        return moves;
+                    matrix[nrow][ncol] = '+';
+                    q.push({nrow, ncol});
+                }
+            }
+            moves++;
+        }
+        return -1;
+    }
+};
