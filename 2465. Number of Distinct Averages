@@ -1,0 +1,34 @@
+// Solution 1
+
+class Solution {
+public:
+    int distinctAverages(vector<int>& nums) {
+        int n = nums.size();
+        set<double> st;
+        sort(nums.begin(), nums.end());
+        int mini = 0, maxi = n-1;
+        while(n > 0) {
+            double avg = (nums[mini] + nums[maxi]) / 2.0;
+            st.insert(avg);
+            mini++;
+            maxi--;
+            n--;
+        }
+        return st.size();
+    }
+};
+
+
+// Solution 2
+
+class Solution {
+public:
+    int distinctAverages(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        set<int> st;
+        for(int i = 0; i < n/2; i++)
+            st.insert(nums[i] + nums[n-i-1]);
+        return st.size();
+    }
+};
