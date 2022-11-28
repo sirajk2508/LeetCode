@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<vector<int>> findWinners(vector<vector<int>>& matches) {
+        int n = matches.size();
+        map<int, int> winner, losser;
+        for(int i = 0; i < n; i++) {
+            winner[matches[i][0]]++;
+            losser[matches[i][1]]++;
+        }
+        vector<int> win, loss;
+        for(auto& [a, b] : winner) {
+            if(losser[a] == 0 && b > 0)
+                win.push_back(a);
+        }
+        for(auto& [a, b] : losser) {
+            if(b == 1)
+                loss.push_back(a);
+        }
+        sort(win.begin(), win.end());
+        sort(loss.begin(), loss.end());
+        return {win, loss};
+    }
+};
+
+
+
+
+class Solution {
+public:
+    vector<vector<int>> findWinners(vector<vector<int>>& matches) {
+        map<int, int> loss;
+        int n = matches.size();
+        for(int i = 0; i < n; i++)
+            loss[matches[i][1]]++;
+        vector<int> losser, winner;
+        for(int i = 0; i < n; i++) {
+            if(loss[matches[i][1]] == 1) {
+                losser.push_back(matches[i][1]);
+                loss[matches[i][1]] = 2;
+            }
+            if(loss.find(matches[i][0]) == loss.end()) {
+                winner.push_back(matches[i][0]);
+                loss[matches[i][0]] = 2;
+            }
+        }
+        sort(losser.begin(), losser.end());
+        sort(winner.begin(), winner.end());
+        return {winner, losser};
+    }
+};
