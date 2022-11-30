@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        map<int, int> mpp;
+        for(auto i : arr)
+            mpp[i]++;
+        set<int> s;
+        for(auto& [a, b] : mpp) {
+            if(s.find(b) == s.end())
+                s.insert(b);
+            else return false;
+        }
+        return true;
+    }
+};
