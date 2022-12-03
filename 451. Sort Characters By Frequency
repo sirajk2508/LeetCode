@@ -1,0 +1,42 @@
+class Solution {
+public:
+    string frequencySort(string s) {
+        map<char, int> mpp;
+        priority_queue<pair<int, char>> pq;
+        for(auto i : s)
+            mpp[i]++;
+        for(auto& [a, b] : mpp)
+            pq.push({b, a});
+        string ans = "";
+        while(!pq.empty()) {
+            int n = pq.top().first;
+            while(n > 0) {
+                ans += pq.top().second;
+                n--;
+            }
+            pq.pop();
+        }
+        return ans;
+    }
+};
+
+
+// BUCKET SORT
+
+class Solution {
+public:
+    string frequencySort(string s) {
+        int n = s.size();
+        unordered_map<char, int> mpp;
+        for(auto i : s)
+            mpp[i]++;
+        vector<vector<char>> bucket(n+1);
+        for(auto& [c, f] : mpp)
+            bucket[f].push_back(c);
+        string ans = "";
+        for(int freq = n; freq >= 1; freq--)
+            for(char c : bucket[freq])
+                ans.append(freq, c);
+        return ans;
+    }
+};
