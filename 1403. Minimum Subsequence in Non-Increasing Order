@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> minSubsequence(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans;
+        priority_queue<int> pq(nums.begin(), nums.end());
+        auto halfsum = accumulate(nums.begin(), nums.end(), 0) / 2;
+        auto sum = 0;
+        while(sum <= halfsum) {
+            ans.push_back(pq.top());
+            sum += ans.back();
+            pq.pop();
+        }
+        return ans;
+    }
+};
