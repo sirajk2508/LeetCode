@@ -1,0 +1,17 @@
+class Solution {
+private:
+    long long int mod = 1e9 + 7;
+    long long total = 0, ans = 0;
+    int help(TreeNode* root) {
+        if(!root) return 0;
+        long long sum = help(root->left) + help(root->right) + root->val;
+        ans = max(ans, (total - sum) * sum);
+        return sum;
+    }
+public:
+    int maxProduct(TreeNode* root) {
+        total = help(root);
+        help(root);
+        return ans % mod;
+    }
+};
