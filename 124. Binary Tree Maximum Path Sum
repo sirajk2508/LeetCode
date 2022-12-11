@@ -1,0 +1,19 @@
+class Solution {
+private:
+    int help(TreeNode* root, int& ans) {
+        if(!root)
+            return 0;
+        int left = help(root->left, ans);
+        int right = help(root->right, ans);
+        int max_straight = max(max(left, right) + root->val, root->val);
+        int max_case = max(max_straight, left + right + root->val);
+        ans = max(max_case, ans);
+        return max_straight;
+    }
+public:
+    int maxPathSum(TreeNode* root) {
+        int ans = INT_MIN;
+        help(root, ans);
+        return ans;
+    }
+};
