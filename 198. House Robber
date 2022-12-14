@@ -1,0 +1,38 @@
+// Brute Force : RECURSSION
+
+class Solution {
+private:
+    int help(int ind, vector<int>& nums) {
+        if(ind >= nums.size())
+            return 0;
+        int steal = nums[ind] + help(ind+2, nums);
+        int notsteal = help(ind+1, nums);
+        return max(steal, notsteal);
+    }
+public:
+    int rob(vector<int>& nums) {
+        return help(0, nums);
+    }
+};
+
+
+// MEMOIZTAION
+
+class Solution {
+private:
+    int help(int ind, vector<int>& nums, vector<int>& dp) {
+        if(ind >= nums.size())
+            return 0;
+        if(dp[ind] != -1)
+            return dp[ind];
+        int steal = nums[ind] + help(ind+2, nums, dp);
+        int notsteal = help(ind+1, nums, dp);
+        return dp[ind] = max(steal, notsteal);
+    }
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        return help(0, nums, dp);
+    }
+};
