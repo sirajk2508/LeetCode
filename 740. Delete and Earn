@@ -1,0 +1,46 @@
+class Solution {
+private:
+    int helper(vector<int>& nums, int i, vector<int>& dp) {
+        if(i >= nums.size())
+            return 0;
+        if(dp[i] != -1) return dp[i];
+        int curValue = nums[i];
+        int curSum = nums[i];
+        int index = i+1;
+        while(index < nums.size() && nums[index] == curValue) {
+            curSum += nums[i];
+            index++;
+        }
+        while(index < nums.size() && nums[index] == curValue+1)
+            index++;
+        return dp[i] = max(curSum + helper(nums, index, dp), helper(nums, i+1, dp));
+    }
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        ios::sync_with_stdio(0);
+        cin.tie(0);
+        int n = nums.size();
+        vector<int> dp(20001, -1);
+        sort(begin(nums), end(nums));
+        return helper(nums, 0, dp);
+    }
+};
+
+
+class Solution {
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        int n = 10001;
+        vector<int> values(n, 0);
+        for(int num : nums)
+            values[num] += num;
+        int take = 0, skip = 0;
+        for(int i = 0; i < n; i++) {
+            int takei = skip + values[i];
+            int skipi = max(skip, take);
+            take = takei;
+            skip = skipi;
+        }
+        return max(take, skip);
+    }
+};
