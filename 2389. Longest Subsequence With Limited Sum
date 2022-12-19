@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> answerQueries(vector<int>& nums, vector<int>& queries) {
+        int n = nums.size();
+        vector<int> ans;
+        sort(nums.begin(), nums.end());
+        for(int i = 1; i < n; i++)
+            nums[i] += nums[i-1];
+        for(int q : queries)
+            ans.push_back(upper_bound(nums.begin(), nums.end(), q) - nums.begin());
+        return ans;
+    }
+};
+
+
+
+class Solution {
+public:
+    vector<int> answerQueries(vector<int>& nums, vector<int>& queries) {
+        int n = nums.size();
+        int m = queries.size();
+        sort(nums.begin(),nums.end());
+        int sum = 0;
+        vector<int> pre_sum;
+        for(int i=0;i<n;i++) {
+            sum += nums[i];
+            pre_sum.push_back(sum);           // storing prefix sum
+        }
+        vector<int> ans(m,0);
+        for(int i=0;i<m;i++) {
+            for(int j=0;j<n;j++) {
+                if(pre_sum[j] <= queries[i]) ans[i] = j+1;
+                else break;
+            }
+        }
+        return ans;
+    }
+};
