@@ -1,0 +1,30 @@
+class Solution {
+private:
+    bool solve(string s, int start, vector<int>& nums) {
+        int n = s.size();
+        if(start >= n && nums.size() >= 3)
+            return true;
+        int split = (s[start] == '0') ? 1 : 10;
+        for(int i = 1; i <= split && start+i <= s.size(); i++) {
+            long long num = stoll(s.substr(start, i));
+            if(num > INT_MAX)
+                return false;
+            int sz = nums.size();
+            if(sz >= 2 && (long long)nums[sz-1] + nums[sz-2] < num)
+                return false;
+            if(sz <= 1 || (long long)nums[sz-1] + nums[sz-2] == num) {
+                nums.push_back(num);
+                if(solve(s, start+i, nums))
+                    return true;
+                nums.pop_back();
+            }
+        }
+        return false;
+    }
+public:
+    vector<int> splitIntoFibonacci(string num) {
+        vector<int> nums;
+        solve(num, 0, nums);
+        return nums;
+    }
+};
