@@ -1,0 +1,74 @@
+// BFS Solution
+
+class Solution {
+public:
+    bool possibleBipartition(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(n+1);
+        vector<int> color(n+1, 0);
+        vector<bool> vis(n+1, 0);
+        for(auto it : edges) {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        queue<int> q;
+        for(int i = 1; i <= n; i++) {
+            if(!vis[i]) {
+                color[i] = 1;
+                q.push(i);
+                while(!q.empty()) {
+                    int u = q.front();
+                    q.pop();
+                    if(vis[u])
+                        continue;
+                    vis[u] = 1;
+                    for(auto v : adj[u]) {
+                        if(color[u] == color[v])
+                            return false;
+                        if(color[u] == 1)
+                            color[v] = 2;
+                        else color[v] = 1;
+                        q.push(v);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
+
+
+// DFS Solution
+
+class Solution {
+private:
+    bool dfs(int node, vector<int> adj[], vector<int>& color) {
+        if(color[node] == -1)
+            color[node] = 1;
+        for(auto it : adj[node]) {
+            if(color[it] == -1) {
+                color[it] = 1 - color[node];
+                if(dfs(it, adj, color))
+                    return true;
+            }
+            else if(color[it] == color[node])
+                return true;
+        }
+        return false;
+    }
+public:
+    bool possibleBipartition(int n, vector<vector<int>>& edges) {
+        vector<int> adj[n+1];
+        vector<int> color(n+1, -1);
+        for(auto it : edges) {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        for(int i = 1; i <= n; i++) {
+            if(color[i] == -1) {
+                if(dfs(i, adj, color))
+                    return false;
+            }
+        }
+        return true;
+    }
+};
