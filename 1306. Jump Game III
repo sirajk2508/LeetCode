@@ -1,0 +1,42 @@
+// DFS
+
+class Solution {
+public:
+    bool canReach(vector<int>& nums, int start) {
+        int n = nums.size();
+        if(nums[start] == -1)
+            return false;
+        if(!nums[start])
+            return true;
+        int left = start - nums[start], right = start + nums[start];
+        nums[start] = -1;
+        return (right < n && canReach(nums, right) || (left >= 0 && canReach(nums, left)));
+    }
+};
+
+
+
+
+// BFS
+
+class Solution {
+public:
+    bool canReach(vector<int>& nums, int start) {
+        queue<int> q;
+        q.push(start);
+        while(!q.empty()) {
+            int cur = q.front();
+            q.pop();
+            if(nums[cur] == 0)
+                return true;
+            if(nums[cur] < 0)
+                continue;
+            if(cur + nums[cur] < nums.size())
+                q.push(cur + nums[cur]);
+            if(cur - nums[cur] >= 0)
+                q.push(cur - nums[cur]);
+            nums[cur] *= -1;
+        }
+        return false;
+    }
+};
