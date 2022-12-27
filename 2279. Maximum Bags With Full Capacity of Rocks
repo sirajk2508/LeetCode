@@ -1,0 +1,19 @@
+// GREEDY
+
+class Solution {
+public:
+    int maximumBags(vector<int>& c, vector<int>& r, int add) {
+        int n = c.size();
+        for(int i = 0; i < n; i++)
+            r[i] = c[i] - r[i];
+        sort(r.begin(), r.end());
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            if((long long)r[i] - add <= 0) {
+                count++;
+                add -= r[i];
+            }
+        }
+        return count;
+    }
+};
