@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maximumScore(int a, int b, int c) {
+        priority_queue<int> pq;
+        pq.push(a);
+        pq.push(b);
+        pq.push(c);
+        int flag = 1, ans = 0;
+        while(flag) {
+            flag = pq.top(); pq.pop();
+            int sec = pq.top(); pq.pop();
+            if(flag == 0 || sec == 0)
+                break;
+            ans++;
+            flag--;
+            sec--;
+            pq.push(flag);
+            pq.push(sec);
+        }
+        return ans;
+    }
+};
