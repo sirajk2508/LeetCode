@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int numDifferentIntegers(string word) {
+        int n = word.size(), i = 0;
+        unordered_set<string> st;
+        while(i < n) {
+            if(!isdigit(word[i])) {
+                i++;
+                continue;
+            }
+            string temp = "";
+            while(i < n && isdigit(word[i]))
+                temp += word[i++];
+            int j = 0;
+            while(j < temp.size() && temp[j] == '0')
+                j++;
+            temp = temp.substr(j);
+            st.insert(temp);
+        }
+        return st.size();
+    }
+};
