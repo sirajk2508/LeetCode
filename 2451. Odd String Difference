@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string oddString(vector<string>& words) {
+        int n = words.size(), m = words[0].size();
+        string ans = "";
+        map<vector<int>, vector<string>> mpp;
+        for(auto& it : words) {
+            vector<int> temp;
+            for(int i = 1; i < m; i++)
+                temp.push_back(it[i] - it[i-1]);
+            mpp[temp].push_back(it);
+        }
+        for(auto& it : mpp) {
+            if(it.second.size() == 1) {
+                ans = it.second[0];
+                break;
+            }
+        }
+        return ans;
+    }
+};
