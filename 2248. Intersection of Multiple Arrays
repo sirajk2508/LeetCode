@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> intersection(vector<vector<int>>& nums) {
+        int n = nums.size();
+        map<int, int> mpp;
+        vector<int> ans;
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < nums[i].size(); j++)
+                mpp[nums[i][j]]++;
+        for(auto& [key, val] : mpp)
+            if(val == n)
+                ans.push_back(key);
+        return ans;
+    }
+};
