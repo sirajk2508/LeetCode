@@ -1,0 +1,35 @@
+// Using FOR LOOP
+
+class Solution {
+public:
+    int minimumMoves(string s) {
+        int n = s.size();
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            if(s[i] != 'O') {
+                count++;
+                i += 2;
+            }
+        }
+        return count;
+    }
+};
+
+
+// Using WHILE LOOP
+
+class Solution {
+public:
+    int minimumMoves(string s) {
+        int i = 0, n = s.size(), count = 0;
+        while(i < n) {
+            if(s[i] == 'O')
+                i++;
+            else {
+                count++;
+                i += 3;
+            }
+        }
+        return count;
+    }
+};
