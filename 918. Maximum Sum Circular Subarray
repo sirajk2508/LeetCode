@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int total = 0, cur1 = 0, cur2 = 0, maxi = INT_MIN, mini = INT_MAX;
+        for(auto i : nums) {
+            total += i;
+            cur1 += i;
+            cur2 += i;
+            maxi = max(maxi, cur1);
+            if(cur1 < 0)
+                cur1 = 0;
+            mini = min(cur2, mini);
+            if(cur2 > 0)
+                cur2 = 0;
+        }
+        return total == mini ? maxi : max(maxi, total - mini);
+    }
+};
