@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+        vector<int> freq(k);
+        freq[0] = 1;
+        int prefix = 0, count = 0;
+        for(auto i : nums) {
+            prefix = (prefix + i % k + k) % k;
+            count += freq[prefix]++;
+        }
+        return count;
+    }
+};
