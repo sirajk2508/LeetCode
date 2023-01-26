@@ -1,0 +1,28 @@
+// TC : O(n)
+
+class Solution {
+public:
+    int differenceOfSum(vector<int>& nums) {
+        int n = nums.size();
+        int sum = 0, digit_sum = 0;
+        for(auto i : nums)
+            sum += i;
+        for(auto i : nums) {
+            string s = to_string(i);
+            for(auto j : s)
+                digit_sum += int(j-'0');
+        }
+        return abs(sum - digit_sum);
+    }
+};
+
+
+
+// PYTHON3 solution
+
+class Solution:
+    def differenceOfSum(self, nums: List[int]) -> int:
+        digit_sum = 0
+        for i in nums:
+            digit_sum += sum([int(j) for j in str(i)])
+        return abs(sum(nums) - digit_sum)
