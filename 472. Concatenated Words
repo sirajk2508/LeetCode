@@ -1,0 +1,69 @@
+// C++ solution
+
+class Solution {
+private:
+    bool dfs(string word, set<string>& wordset) {
+        for(int i = 1; i < word.size(); i++) {
+            string prefix = word.substr(0, i);
+            string suffix = word.substr(i, word.size());
+            if((wordset.find(prefix) != wordset.end() && wordset.find(suffix) != wordset.end()) or (wordset.find(prefix) != wordset.end() && dfs(suffix, wordset)))
+                return true;
+        }
+        return false;
+    }
+public:
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        set<string> wordset(words.begin(), words.end());
+        vector<string> ans;
+        for(auto w : words)
+            if(dfs(w, wordset))
+                ans.push_back(w);
+        return ans;
+    }
+};
+
+
+// Python3 Solution : TC :- O(n * L^3)
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        wordset = set(words)
+        
+        def dfs(word):
+            for i in range(1, len(word)):
+                prefix = word[:i]
+                suffix = word[i:]
+                if((prefix in wordset and suffix in wordset) or (prefix in wordset and dfs(suffix))):
+                    return True
+
+        ans = []
+        for w in words:
+            if(dfs(w)):
+                ans.append(w);
+        return ans
+        
+        
+// Memoization
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        wordset = set(words)
+        dp = {}
+        
+        def dfs(word):
+            if word in dp:
+                return dp[word]
+            for i in range(1, len(word)):
+                prefix = word[:i]
+                suffix = word[i:]
+                if((prefix in wordset and suffix in wordset) or (prefix in wordset and dfs(suffix))):
+                    dp[word] = True
+                    return dp[word]
+            dp[word] = False
+            return dp[word]
+
+        ans = []
+        for w in words:
+            if(dfs(w)):
+                ans.append(w);
+        return ans
