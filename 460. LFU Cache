@@ -1,0 +1,106 @@
+struct Node {
+    int key, val, count;
+    Node* next;
+    Node* prev;
+    Node(int _key, int _val) {
+        key = _key;
+        val = _val;
+        count = 1;
+    }
+};
+
+struct List {
+    int size;
+    Node* head;
+    Node* tail;
+    List() {
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head->next = tail;
+        tail->prev = head;
+        size = 0;
+    }
+
+    void addnode(Node* node) {
+        Node* temp = head->next;
+        node->next = temp;
+        node->prev = head;
+        head->next = node;
+        temp->prev = node;
+        size++;
+    }
+
+    void deletenode(Node* delnode) {
+        Node* delprev = delnode->prev;
+        Node* delnext = delnode->next;
+        delprev->next = delnext;
+        delnext->prev = delprev;
+        size--;
+    }
+};
+
+class LFUCache {
+private:
+    map<int, Node*> keymap;
+    map<int, List*> freqmap;
+    int maxsize;
+    int minfreq;
+    int cursize;
+public:
+    LFUCache(int capacity) {
+        maxsize = capacity;
+        minfreq = 0;
+        cursize = 0;
+    }
+
+    void updatenode(Node* node) {
+        keymap.erase(node->key);
+        freqmap[node->count]->deletenode(node);
+        if(node->count == minfreq && freqmap[node->count]->size == 0)
+            minfreq++;
+            List* nextlist = new List();
+            if(freqmap.find(node->count + 1) != freqmap.end())
+                nextlist = freqmap[node->count + 1];
+            node->count += 1;
+            nextlist->addnode(node);
+            freqmap[node->count] = nextlist;
+            keymap[node->key] = node;
+    }
+    
+    int get(int key) {
+        if(keymap.find(key) != keymap.end()) {
+            Node* node = keymap[key];
+            int value = node->val;
+            updatenode(node);
+            return value;
+        }
+        return -1;
+    }
+    
+    void put(int key, int value) {
+        if(maxsize == 0)
+            return;
+        if(keymap.find(key) != keymap.end()) {
+            Node* node = keymap[key];
+            node->val = value;
+            updatenode(node);
+        }
+        else {
+            if(cursize == maxsize) {
+                List* list = freqmap[minfreq];
+                keymap.erase(list->tail->prev->key);
+                freqmap[minfreq]->deletenode(list->tail->prev);
+                cursize--;
+            }
+            cursize++;
+            minfreq = 1;
+            List* listfreq = new List();
+            if(freqmap.find(minfreq) != freqmap.end())
+                listfreq = freqmap[minfreq];
+            Node* node = new Node(key, value);
+            listfreq->addnode(node);
+            keymap[key] = node;
+            freqmap[minfreq] = listfreq;
+        }
+    }
+};
