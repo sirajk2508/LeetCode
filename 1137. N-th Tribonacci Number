@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int tribonacci(int n) {
+        int temp[] = {0, 1, 1};
+        if(n < 3)
+            return temp[n];
+        for(int i = 3; i < n+1; i++) {
+            int carry = temp[2];
+            temp[2] = (carry + temp[0] + temp[1]);
+            temp[0] = temp[1];
+            temp[1] = carry;
+        }
+        return temp[2];
+    }
+};
+
+
+// Similar Python Code
+
+class Solution:
+    def tribonacci(self, n: int) -> int:
+        temp = [0, 1, 1]
+        if n < 3:
+            return temp[n];
+        for i in range(3, n+1):
+            temp[0], temp[1], temp[2] = temp[1], temp[2], sum(temp)
+        return temp[2]
+        
+        
+// Similar Javascript code
+
+var tribonacci = function(n) {
+    let temp = [0, 1, 1];
+    if(n < 3)
+        return temp[n];
+    for(let i = 3; i < n+1; i++) {
+        let t = temp[2];
+        temp[2] = (t + temp[1] + temp[0]);
+        temp[0] = temp[1];
+        temp[1] = t;
+    }
+    return temp[2];
+};
