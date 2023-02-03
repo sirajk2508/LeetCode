@@ -1,0 +1,42 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        int n = s.size();
+        if(numRows == 1 || n <= numRows)
+            return s;
+        vector<char> arr[numRows];
+        int row = 0;
+        int delta = -1;
+        for(auto c : s) {
+            arr[row].push_back(c);
+            if(row == 0 || row == numRows-1)
+                delta *= -1;
+            row += delta;
+        }
+        string ans = "";
+        for(auto x : arr) {
+            for(auto y : x) {
+                ans += y;
+            }
+        }
+        return ans;
+    }
+};
+
+
+
+
+// PYTHON3 Solution
+
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1 or numRows >= len(s):
+            return s
+        ans = ""
+        for row in range(numRows):
+            inc = 2 * (numRows-1)
+            for i in range(row, len(s), inc):
+                ans += s[i]
+                if(row > 0 and row < numRows-1 and i+inc-2*row < len(s)):
+                    ans += s[i + inc - 2*row]
+        return ans
