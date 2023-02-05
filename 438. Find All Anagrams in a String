@@ -1,0 +1,56 @@
+// C++ Solution
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        int n = p.size();
+        int m = s.size();
+        if(n > m)
+            return {};
+        map<char, int> scount, pcount;
+        for(int i = 0; i < n; i++) {
+            pcount[p[i]]++;
+            scount[s[i]]++;
+        }
+        vector<int> ans;
+        if(pcount == scount)
+            ans.push_back(0);
+        int l = 0;
+        for(int r = n; r < m; r++) {
+            scount[s[r]]++;
+            scount[s[l]]--;
+            if(scount[s[l]] == 0)
+                scount.erase(s[l]);
+            l++;
+            if(scount == pcount)
+                ans.push_back(l);
+        }
+        return ans;
+    }
+};
+
+
+
+// PUTHON3 Solution
+
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        n, m = len(p), len(s)
+        if n > m:
+            return []
+        scount, pcount = {}, {}
+        for i in range(n):
+            pcount[p[i]] = 1 + pcount.get(p[i], 0)
+            scount[s[i]] = 1 + scount.get(s[i], 0)
+        ans = [0] if pcount == scount else []
+        l = 0
+        for r in range(n, m):
+            scount[s[r]] = 1 + scount.get(s[r], 0)
+            scount[s[l]] -= 1
+            if scount[s[l]] == 0:
+                scount.pop(s[l])
+            l += 1
+            if scount == pcount:
+                ans.append(l)
+            
+        return ans
