@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        map<int, int> mpp;
+        int ans = 0, total = 0, l = 0;
+        for(int r = 0; r < fruits.size(); r++) {
+            mpp[fruits[r]]++;
+            total++;
+            while(mpp.size() > 2) {
+                int f = fruits[l];
+                total--;
+                mpp[f]--;
+                if(mpp[f] == 0)
+                    mpp.erase(f);
+                l++;
+            }
+            ans = max(ans, total);
+        }
+        return ans;
+    }
+};
+
+
+
+// PYTHON3 Solution
+
+class Solution:
+    def totalFruit(self, fruits: List[int]) -> int:
+        mpp = collections.defaultdict(int) 
+        l, total, ans = 0, 0, 0
+        for r in range(len(fruits)):
+            total += 1
+            mpp[fruits[r]] += 1
+            while len(mpp) > 2:
+                total -= 1
+                f = fruits[l]
+                mpp[f] -= 1
+                if not mpp[f]:
+                    mpp.pop(f)
+                l += 1
+            ans = max(ans, total)
+        return ans
