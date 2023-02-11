@@ -1,0 +1,72 @@
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
+        vector<int> red[n], blue[n], ans(n, -1);
+        for(auto it : redEdges)
+            red[it[0]].push_back(it[1]);
+        for(auto it : blueEdges)
+            blue[it[0]].push_back(it[1]);
+        vector<int> visr(n, 0), visb(n, 0);
+        queue<pair<pair<int, int>, string>> q;
+        q.push({{0, 0}, "NONE"});
+        visr[0] = 1, visb[0] = 1;
+        while(!q.empty()) {
+            auto it = q.front();
+            q.pop();
+            int node = it.first.first, length = it.first.second;
+            string edgeColor = it.second;
+            if(ans[node] == -1)
+                ans[node] = length;
+            if(edgeColor != "RED") {
+                for(auto i : red[node]) {
+                    if(!visr[i]) {
+                        visr[i] = 1;
+                        q.push({{i, length+1}, "RED"});
+                    }
+                }
+            }
+            if(edgeColor != "BLUE") {
+                for(auto i : blue[node]){
+                    if(!visb[i]) {
+                        visb[i] = 1;
+                        q.push({{i, length+1}, "BLUE"});
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+
+
+
+// PYTHON3 Code
+class Solution:
+    def shortestAlternatingPaths(self, n: int, redEdges: List[List[int]], blueEdges: List[List[int]]) -> List[int]:
+        red = collections.defaultdict(list)
+        blue = collections.defaultdict(list)
+        for src, dst in redEdges:
+            red[src].append(dst)
+        for src, dst in blueEdges:
+            blue[src].append(dst)
+        ans = [-1 for i in range(n)]
+        q = deque()
+        q.append([0, 0, None])
+        vis = set()
+        vis.add((0, None))
+        while q:
+            node, length, edgeColor = q.popleft()
+            if ans[node] == -1:
+                ans[node] = length
+            if edgeColor != "RED":
+                for i in red[node]:
+                    if (i, "RED") not in vis:
+                        vis.add((i, "RED"))
+                        q.append([i, length+1, "RED"])
+            if edgeColor != "BLUE":
+                for i in blue[node]:
+                    if (i, "BLUE") not in vis:
+                        vis.add((i, "BLUE"))
+                        q.append([i, length+1, "BLUE"])
+        return ans
