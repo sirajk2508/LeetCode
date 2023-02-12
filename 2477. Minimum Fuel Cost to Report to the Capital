@@ -1,0 +1,54 @@
+// C++ CODE
+
+class Solution {
+private:
+    long long int ans = 0;
+
+    int dfs(int node, int parent, unordered_map<int, vector<int>>& adj, int seats) {
+        int passengers = 0;
+        for(auto& child : adj[node]) {
+            if(child != parent) {
+                int p = dfs(child, node, adj, seats);
+                passengers += p;
+                ans += (int)ceil(p * 1.0 / seats);
+            }
+        }
+        return passengers + 1;
+    }
+public:
+    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+        unordered_map<int, vector<int>> adj;
+        for(auto& it : roads) {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        dfs(0, -1, adj, seats);
+        return ans;
+    }
+};
+
+
+
+
+// PYTHON3 CODE
+
+class Solution:
+    def minimumFuelCost(self, roads: List[List[int]], seats: int) -> int:
+        adj = defaultdict(list)
+        for src, dst in roads:
+            adj[src].append(dst)
+            adj[dst].append(src)
+
+        def dfs(node, parent):
+            nonlocal ans
+            passengers = 0
+            for child in adj[node]:
+                if child != parent:
+                    p = dfs(child, node)
+                    passengers += p
+                    ans += int(ceil(p / seats))
+            return passengers+1
+        
+        ans = 0
+        dfs(0, -1)
+        return ans
