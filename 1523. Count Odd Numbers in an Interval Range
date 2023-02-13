@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int countOdds(int low, int high) {
+        int length = high - low + 1;
+        int ans = length / 2;
+        if(length % 2 and low % 2)
+            ans++;
+        return ans;
+    }
+};
+
+
+// PYTHON3 Code
+
+class Solution:
+    def countOdds(self, low: int, high: int) -> int:
+        length = high - low + 1
+        ans = length // 2
+        if length % 2 and low % 2:
+            ans += 1
+        return ans
