@@ -1,0 +1,43 @@
+// C++ CODE
+
+class Solution {
+private:
+    int ans = INT_MAX;
+    TreeNode* prev = nullptr;
+    void inorder(TreeNode* node) {
+        if(!node)
+            return;
+        inorder(node->left);
+        if(prev)
+            ans = min(ans, node->val - prev->val);
+        prev = node;
+        inorder(node->right);
+    }
+public:
+    int minDiffInBST(TreeNode* root) {
+        inorder(root);
+        return ans;
+    }
+};
+
+
+
+
+
+// PYTHON3 CODE
+
+class Solution:
+    def minDiffInBST(self, root: Optional[TreeNode]) -> int:
+        ans, prev = float("inf"), None
+
+        def inorder(node):
+            if not node:
+                return
+            inorder(node.left)
+            nonlocal prev, ans
+            if prev:
+                ans = min(ans, node.val - prev.val)
+            prev = node
+            inorder(node.right)
+        inorder(root)
+        return ans
