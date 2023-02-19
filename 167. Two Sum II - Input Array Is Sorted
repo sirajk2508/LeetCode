@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        map<int, int> mpp;
+        for(int i = 0; i < n; i++)
+            mpp[nums[i]] = i;
+        for(int i = 0; i < n; i++)
+            if(mpp.find(target-nums[i]) != mpp.end())
+                return {i+1, mpp[target-nums[i]]+1};
+        return {};
+    }
+};
+
+
+// BINARY SEARCH
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        int left = 0, right = n-1;
+        while(left < right) {
+            int sum = nums[left] + nums[right];
+            if(sum == target)
+                return {left+1, right+1};
+            else if(sum > target)
+                right--;
+            else left++;
+        }
+        return {};
+    }
+};
