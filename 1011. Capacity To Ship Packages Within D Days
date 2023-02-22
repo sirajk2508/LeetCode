@@ -1,0 +1,62 @@
+class Solution {
+private:
+    bool canShip(int cap, vector<int>& weights, int days) {
+        int ships = 1, curCap = cap;
+        for(auto w : weights) {
+            if(curCap - w < 0) {
+                ships += 1;
+                curCap = cap;
+            }
+            curCap -= w;
+        }
+        return ships <= days;
+    }
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int sum = 0, maxi = 0;
+        for(auto w : weights) {
+            sum += w;
+            maxi = max(maxi, w);
+        }
+        int l = maxi, r = sum;
+        int ans = r;
+        while(l <= r) {
+            int cap = l + (r - l) / 2;
+            if(canShip(cap, weights, days)) {
+                ans = min(ans, cap);
+                r = cap - 1;
+            }
+            else l = cap + 1;
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+// PYTHON3 Code
+
+class Solution:
+    def shipWithinDays(self, weights: List[int], days: int) -> int:
+        l, r = max(weights), sum(weights)
+        ans = r
+
+        def canShip(cap):
+            ships, curCap = 1, cap
+            for w in weights:
+                if curCap - w < 0:
+                    ships += 1
+                    curCap = cap
+                curCap -= w
+            return ships <= days
+
+        while l <= r:
+            cap = l + (r - l) // 2
+            if canShip(cap):
+                ans = min(ans, cap)
+                r = cap - 1
+            else:
+                l = cap + 1
+        return ans
