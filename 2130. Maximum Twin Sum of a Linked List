@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int pairSum(ListNode* head) {
+        vector<int> arr;
+        ListNode* temp = head;
+        while(temp != NULL) {
+            arr.push_back(temp->val);
+            temp = temp->next;
+        }
+        int ans = 0;
+        int i = 0, j = arr.size()-1;
+        while(i < j) {
+            ans = max(ans, arr[i] + arr[j]);
+            i++;
+            j--;
+        }
+        return ans;
+    }
+};
+
+
+// Constant Space
+
+class Solution {
+public:
+    int pairSum(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* prev = nullptr;
+        while(fast != nullptr && fast->next != nullptr) {
+            fast = fast->next->next;
+            ListNode* temp = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = temp;
+        }
+        int ans = 0;
+        while(slow != nullptr) {
+            ans = max(ans, prev->val + slow->val);
+            prev = prev->next;
+            slow = slow->next;
+        }
+        return ans;
+    }
+};
