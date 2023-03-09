@@ -1,0 +1,42 @@
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if(head == nullptr || head->next == nullptr)
+            return nullptr;
+        ListNode* fast = head;
+        ListNode* slow = head;
+        ListNode* start = head;
+        while(fast->next && fast->next->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow == fast) {
+                while(slow != start) {
+                    slow = slow->next;
+                    start = start->next;
+                }
+                return start;
+            }
+        }
+        return nullptr;
+    }
+};
+
+
+
+
+// Python3 Code
+
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if (head == None or head.next == None):
+            return None
+        slow = fast = start = head
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+            if fast == slow:
+                while slow != start:
+                    slow = slow.next
+                    start = start.next
+                return start
+        return None
