@@ -1,0 +1,21 @@
+class Solution {
+public:
+    ListNode* head = NULL;
+
+    Solution(ListNode* head) {
+        this->head = head;
+    }
+    
+    int getRandom() {
+        int ans = 0;
+        int i = 1;
+        ListNode* p = head;
+        while(p) {
+            if(rand() % i == 0)
+                ans = p->val;
+            i++;
+            p = p->next;
+        }
+        return ans;
+    }
+};
