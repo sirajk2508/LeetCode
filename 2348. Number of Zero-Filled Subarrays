@@ -1,0 +1,70 @@
+// SOLUTION 1
+
+class Solution {
+public:
+    long long zeroFilledSubarray(vector<int>& nums) {
+        long long ans = 0;
+        int i = 0;
+        while(i < nums.size()) {
+            long long count = 0;
+            while(i < nums.size() && nums[i] == 0) {
+                count++;
+                i++;
+                ans += count;
+            }
+            i++;
+        }
+        return ans;
+    }
+};
+
+
+
+
+// SOLUTION 2
+
+class Solution {
+public:
+    long long zeroFilledSubarray(vector<int>& nums) {
+        long long ans = 0, count = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] == 0) {
+                count++;
+                ans += count;
+            }
+            else count = 0;
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+// PYTHON3 CODE
+
+// SOLUTION 1
+class Solution:
+    def zeroFilledSubarray(self, nums: List[int]) -> int:
+        ans, i = 0, 0
+        while i < len(nums):
+            count = 0
+            while i < len(nums) and nums[i] == 0:
+                count += 1
+                i += 1
+                ans += count
+            i += 1
+        return ans
+                
+// SOLUTION 2
+
+class Solution:
+    def zeroFilledSubarray(self, nums: List[int]) -> int:
+        ans, count = 0, 0
+        for i in nums:
+            if i == 0:
+                count += 1
+                ans += count
+            else: count = 0
+        return ans
