@@ -1,0 +1,39 @@
+class Solution {
+private:
+    int ans = -1;
+
+    void solve(vector<int>& edges, int it, vector<bool>& vis, vector<int>& store) {
+        if(it == -1)
+            return;
+        if(vis[it]) {
+            int count = -1;
+            for(int i = 0; i < store.size(); i++) {
+                if(store[i] == it) {
+                    count = i;
+                    break;
+                }
+            }
+            if(count == -1)
+                return;
+            int sz = (store.size() - count);
+            ans = max(ans, sz);
+            return;
+        }
+        vis[it] = true;
+        store.push_back(it);
+        solve(edges, edges[it], vis, store);
+        return;
+    }
+public:
+    int longestCycle(vector<int>& edges) {
+        int n = edges.size();
+        vector<bool> vis(n, 0);
+        for(int i = 0; i < n; i++) {
+            if(!vis[i]) {
+                vector<int> store;
+                solve(edges, i, vis, store);
+            }
+        }
+        return ans;
+    }
+};
