@@ -1,0 +1,70 @@
+// RECURSIVE CODE
+
+class Solution {
+private:
+    int solve(vector<int>& days, vector<int>& costs, int ind) {
+        int n = days.size();
+        if(ind >= n)
+            return 0;
+        int costday = costs[0] + solve(days, costs, ind+1);
+        int i;
+        for(i = ind; i < n and days[i] < days[ind]+7; i++);
+        int costweek = costs[1] + solve(days, costs, i);
+        for(i = ind; i < n and days[i] < days[ind]+30; i++);
+        int costmonth = costs[2] + solve(days, costs, i);
+        return min({costday, costweek, costmonth});
+    }
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        return solve(days, costs, 0);
+    }
+};
+
+
+
+// MEMOIZATION CODE
+
+class Solution {
+private:
+    int solve(vector<int>& days, vector<int>& costs, int ind, vector<int>& dp) {
+        int n = days.size();
+        if(ind >= n)
+            return 0;
+        if(dp[ind] != -1)
+            return dp[ind];
+        int costday = costs[0] + solve(days, costs, ind+1, dp);
+        int i;
+        for(i = ind; i < n and days[i] < days[ind]+7; i++);
+        int costweek = costs[1] + solve(days, costs, i, dp);
+        for(i = ind; i < n and days[i] < days[ind]+30; i++);
+        int costmonth = costs[2] + solve(days, costs, i, dp);
+        dp[ind] = min({costday, costweek, costmonth});
+        return dp[ind];
+    }
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        vector<int> dp(367, -1);
+        return solve(days, costs, 0, dp);
+    }
+};
+
+
+
+// TABULATION CODE
+
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        unordered_set<int> st(days.begin(), days.end());
+        vector<int> dp(367);
+        for(int i = 1; i < 366; i++) {
+            dp[i] = dp[i-1];
+            if(st.find(i) != st.end()) {
+                dp[i] = min( {dp[i-1] + costs[0],
+                dp[max(0, i-7)] + costs[1],
+                dp[max(0, i-30)] + costs[2]});
+            }
+        }
+        return dp[365];
+    }
+};
