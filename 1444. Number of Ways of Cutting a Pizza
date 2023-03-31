@@ -1,0 +1,30 @@
+class Solution {
+private:
+    int dfs(int n, int m, int k, int r, int c, vector<vector<vector<int>>>& dp, vector<vector<int>>& prefix) {
+        if(prefix[r][c] == 0)
+            return 0;
+        if(k == 0)
+            return 1;
+        if(dp[k][r][c] != -1)
+            return dp[k][r][c];
+        int ans = 0;
+        for(int nr = r+1; nr < n; nr++) {
+            if(prefix[r][c] - prefix[nr][c] > 0)
+                ans = (ans + dfs(n, m, k-1, nr, c, dp, prefix)) % 1000000007;
+        }
+        for(int nc = c+1; nc < m; nc++)
+            if(prefix[r][c] - prefix[r][nc] > 0)
+                ans = (ans + dfs(n, m, k-1, r, nc, dp, prefix)) % 1000000007;
+        return dp[k][r][c] = ans;
+    }
+public:
+    int ways(vector<string>& pizza, int k) {
+        int n = pizza.size(), m = pizza[0].size();
+        vector<vector<vector<int>>> dp(k, vector(n, vector(m, -1)));
+        vector<vector<int>> prefix(vector(n+1, vector(m+1, 0)));
+        for(int row = n-1; row >= 0; row--)
+            for(int col = m-1; col >= 0; col--)
+                prefix[row][col] = prefix[row][col+1] + prefix[row+1][col] - prefix[row+1][col+1] + (pizza[row][col] == 'A');
+        return dfs(n, m, k-1, 0, 0, dp, prefix);
+    }
+};
