@@ -1,0 +1,45 @@
+// DFS
+
+class Solution {
+public:
+    unordered_map<Node*, Node*> mpp;
+    Node* cloneGraph(Node* node) {
+        if(!node)
+            return NULL;
+        if(mpp.find(node) == mpp.end()) {
+            mpp[node] = new Node(node->val, {});
+            for(Node* ngh : node->neighbors)
+                mpp[node]->neighbors.push_back(cloneGraph(ngh));
+        }
+        return mpp[node];
+    }
+};
+
+
+
+// BFS
+
+class Solution {
+public:
+    unordered_map<Node*, Node*> copies;
+    Node* cloneGraph(Node* node) {
+        if(!node)
+            return NULL;
+        Node* copy = new Node(node->val, {});
+        copies[node] = copy;
+        queue<Node*> q;
+        q.push(node);
+        while(!q.empty()) {
+            Node* cur = q.front();
+            q.pop();
+            for(Node* ngh : cur->neighbors) {
+                if(copies.find(ngh) == copies.end()) {
+                    copies[ngh] = new Node(ngh->val, {});
+                    q.push(ngh);
+                }
+                copies[cur]->neighbors.push_back(copies[ngh]);
+            }
+        }
+        return copy;
+    }
+};
