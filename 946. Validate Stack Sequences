@@ -1,0 +1,33 @@
+// C++ CODE
+
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> st;
+        int i = 0;
+        for(auto n : pushed) {
+            st.push(n);
+            while(i < popped.size() && !st.empty() && popped[i] == st.top()) {
+                st.pop();
+                i++;
+            }
+        }
+        return st.empty();
+    }
+};
+
+
+
+
+// PYTHON3 CODE
+
+class Solution:
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        stack = []
+        j = 0
+        for i in pushed:
+            stack.append(i)
+            while j < len(popped) and stack and popped[j] == stack[-1]:
+                stack.pop()
+                j += 1
+        return len(stack) == 0
