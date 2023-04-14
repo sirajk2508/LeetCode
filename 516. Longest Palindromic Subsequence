@@ -1,0 +1,43 @@
+// C++ CODE
+
+class Solution {
+public:
+    int solve(string s, string rs) {
+        int n = s.size(), m = rs.size();
+        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(s[i] == rs[j])
+                    dp[i+1][j+1] = 1 + dp[i][j];
+                else
+                    dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1]);
+            }
+        }
+        return dp[n][m];
+    }
+
+    int longestPalindromeSubseq(string s) {
+        string rs = s;
+        reverse(rs.begin(), rs.end());
+        return solve(s, rs);
+    }
+};
+
+
+
+// PYTHON3 CODE
+
+class Solution:
+    def solve(self, s1 : str, s2 : str) -> int:
+        n, m = len(s1), len(s2)
+        dp = [[0] * (m+1) for i in range(n+1)]
+        for i in range(n):
+            for j in range(m):
+                if s1[i] == s2[j]:
+                    dp[i+1][j+1] = 1 + dp[i][j]
+                else:
+                    dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1])
+        return dp[n][m]
+
+    def longestPalindromeSubseq(self, s: str) -> int:
+        return self.solve(s, s[::-1])
