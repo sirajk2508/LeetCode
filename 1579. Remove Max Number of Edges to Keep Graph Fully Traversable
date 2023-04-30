@@ -1,0 +1,49 @@
+class UnionFind {
+    vector<int> component;
+    int distinctcomponents;
+public:
+    UnionFind(int n) {
+        distinctcomponents = n;
+        for(int i = 0; i <= n; i++)
+            component.push_back(i);
+    }
+    int findcomponent(int a) {
+        if(component[a] != a)
+            component[a] = findcomponent(component[a]);
+        return component[a];
+    }
+    bool unite(int a, int b) {
+        if(findcomponent(a) == findcomponent(b))
+            return false;
+        component[findcomponent(a)] = b;
+        distinctcomponents--;
+        return true;
+    }
+    bool united() {
+        return distinctcomponents == 1;
+    }
+};
+
+class Solution {
+public:
+    int maxNumEdgesToRemove(int n, vector<vector<int>>& edges) {
+        sort(edges.begin(), edges.end(), [](vector<int>& a, vector<int>& b) { return a[0] > b[0];});
+        int edgesadded = 0;
+        UnionFind bob(n), alice(n);
+        for(auto& it : edges) {
+            int type = it[0], one = it[1], two = it[2];
+            switch(type) {
+                case 3:
+                    edgesadded += (bob.unite(one, two) | alice.unite(one, two));
+                    break;
+                case 2:
+                    edgesadded += bob.unite(one, two);
+                    break;
+                case 1:
+                    edgesadded += alice.unite(one, two);
+                    break;
+            }
+        }
+        return (bob.united() && alice.united()) ? (edges.size() - edgesadded) : -1;
+    }
+};
