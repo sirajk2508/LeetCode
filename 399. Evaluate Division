@@ -1,0 +1,37 @@
+class Solution {
+private:
+    unordered_map<string, vector<pair<string, double>>> mpp;
+private:
+    void dfs(string s, string d, unordered_map<string, vector<pair<string, double>>> mpp, unordered_map<string, int>& visited, double& ans, double temp) {
+        if(visited.count(s))
+            return;
+        if(s == d) {
+            ans = temp;
+            return;
+        }
+        visited[s] = 1;
+        for(auto x : mpp[s]) {
+            dfs(x.first, d, mpp, visited, ans, temp * x.second);
+        }
+        return;
+    }
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        for(int i = 0; i < equations.size(); i++) {
+            mpp[equations[i][0]].push_back({equations[i][1], values[i]});
+            mpp[equations[i][1]].push_back({equations[i][0], 1.0/values[i]});
+        }
+        vector<double> res;
+        for(int i = 0; i < queries.size(); i++) {
+            string source = queries[i][0];
+            string destination = queries[i][1];
+            unordered_map<string, int> visited;
+            double ans = -1.0;
+            double temp = 1;
+            if(mpp.count(source))
+                dfs(source, destination, mpp, visited, ans, temp);
+            res.push_back(ans);
+        }
+        return res;
+    }
+};
