@@ -1,0 +1,54 @@
+// Memoization Solution
+
+class Solution {
+private:
+    int solve(const vector<int>& stones, int ind, vector<int>& dp) {
+        if(ind >= stones.size())
+            return 0;
+        if(dp[ind] != INT_MAX)
+            return dp[ind];
+        int sum = stones[ind];
+        int val = sum - solve(stones, ind+1, dp);
+        for(int j = ind+1; j < min(ind+3, (int)stones.size()); j++) {
+            sum += stones[j];
+            val = max(val, sum - solve(stones, j+1, dp));
+        }
+        return val;
+    }
+public:
+    string stoneGameIII(vector<int>& stoneValue) {
+        vector<int> dp(stoneValue.size(), INT_MAX);
+        int val = solve(stoneValue, 0, dp);
+        if(val > 0)
+            return "Alice";
+        else if(val < 0)
+            return "Bob";
+        else return "Tie";
+    }
+};
+
+
+// Bottom UP
+
+class Solution {
+public:
+    string stoneGameIII(vector<int>& stoneValue) {
+        vector<int> dp(stoneValue.size()+1, INT_MIN);
+        dp[stoneValue.size()] = 0;
+        for(int i = stoneValue.size()-1; i >= 0; i--) {
+            int sum = stoneValue[i];
+            int val = sum - dp[i+1];
+            for(int j = i+1; j < min(i+3, (int)stoneValue.size()); j++) {
+                sum += stoneValue[j];
+                val = max(val, sum - dp[j+1]);
+            }
+            dp[i] = val;
+        }
+        int val = dp[0];
+        if(val > 0)
+            return "Alice";
+        else if(val < 0)
+            return "Bob";
+        else return "Tie";
+    }
+};
