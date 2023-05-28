@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int minCost(int n, vector<int>& cuts) {
+        cuts.push_back(0);
+        cuts.push_back(n);
+        sort(cuts.begin(), cuts.end());
+        int k = cuts.size();
+        vector<vector<int>> dp(k, vector<int>(k));
+        for(int i = 2; i < k; i++) {
+            for(int j = 0; j < k-i; j++) {
+                dp[j][j+i] = 1e9;
+                for(int m = j+1; m < j+i; m++)
+                    dp[j][j+i] = min(dp[j][j+i], dp[j][m] + dp[m][j+i] + cuts[j+i] - cuts[j]);
+            }
+        }
+        return dp[0][k-1];
+    }
+};
